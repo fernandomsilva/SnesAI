@@ -21,10 +21,14 @@ pacman -S --needed base-devel mingw-w64-i686-toolchain mingw-w64-x86_64-toolchai
                    git subversion mercurial \
                    mingw-w64-i686-cmake mingw-w64-x86_64-cmake
 
-5) We need to download zlib and libpng. So you will need to use the commands:
+5) We need to download zlib, libpng and sfml. So you will need to use the commands:
+
+PS: In the case one of these commands doesn't work, use this to search for packages: pacman -Ss <package name>
 
 pacman -S zlib
 pacman -S mingw-w64-x86_64-libpng
+pacman -S mingw-w64-x86_64-sfml
+
 
 6) With everything installed, open up a cmd terminal. Navigate to the main folder of the project.
 
