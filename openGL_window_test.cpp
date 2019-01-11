@@ -1,4 +1,13 @@
-#include "libraries/freeglut/include/GL/glut.h"
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <windows.h>
+#include <GL/glut.h>
+#endif
+
+int window_width = 320, window_height = 32,
+  image_width = 320, image_height = 320;
+
 
 void renderScene(void) {
 
@@ -19,8 +28,8 @@ int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100,100);
-	glutInitWindowSize(320,320);
-	glutCreateWindow("Lighthouse3D - GLUT Tutorial");
+	glutInitWindowSize(window_width, window_height);
+	glutCreateWindow("SNESAI_Window");
 
 	// register callbacks
 	glutDisplayFunc(renderScene);
