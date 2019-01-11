@@ -11,18 +11,28 @@ The package application is called pacman. In order to have it up to date, follow
 
 https://www.msys2.org/
 
-4) We need to download zlib and libpng. The following command downloads and install packages on pacman:
+4) We now need the compiler and tools for C/C++. The following command downloads and install packages on pacman:
 
 pacman -S <package name>
 
-So you will need to use the commands:
+So we will run the following to download the compilers and tools:
+
+pacman -S --needed base-devel mingw-w64-i686-toolchain mingw-w64-x86_64-toolchain \
+                   git subversion mercurial \
+                   mingw-w64-i686-cmake mingw-w64-x86_64-cmake
+
+5) We need to download zlib, libpng and sfml. So you will need to use the commands:
+
+PS: In the case one of these commands doesn't work, use this to search for packages: pacman -Ss <package name>
 
 pacman -S zlib
 pacman -S mingw-w64-x86_64-libpng
+pacman -S mingw-w64-x86_64-sfml
 
-5) With everything installed, open up a cmd terminal. Navigate to the main folder of the project.
 
-6) Over there you will find a file named compiling.bat 
+6) With everything installed, open up a cmd terminal. Navigate to the main folder of the project.
+
+7) Over there you will find a file named compiling.bat 
 Either run it, or open it on a text editor and run each of the commands in there to compile the project.
 Once compilation of all files are done (might take a bit), an executable file should be at the build folder.
 Run the executable file from the terminal. If everything worked fine it should print "Hello" and terminate.
