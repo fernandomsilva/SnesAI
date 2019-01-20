@@ -127,3 +127,8 @@ void S9xSetPalette (void)
 void WinDisplayStringFromBottom (const char *string, int linesFromBottom, int pixelsFromLeft, bool allowWrap)
 {
 }
+
+void S9xToggleSoundChannel (int c)
+{
+	return NULL;
+}
