@@ -1,9 +1,18 @@
+<<<<<<< HEAD:openGL_window_test.cpp
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <windows.h>
 #include <GL/glut.h>
+#endif
+
+int window_width = 320, window_height = 32,
+  image_width = 320, image_height = 320;
+
+=======
+#include <GL/glut.h>
 //#include "libraries/freeglut/include/GL/glut.h"
+>>>>>>> 9bf7953896d82cc1d0a9ef3a2afe0f84fc41f47d:UI/glut old code/openGL_window_test.cpp
 
 void renderScene(void) {
 
@@ -15,7 +24,7 @@ void renderScene(void) {
 		glVertex3f(0.0,0.5,0.0);
 	glEnd();
 
-        glutSwapBuffers();
+    glutSwapBuffers();
 }
 
 int main(int argc, char **argv) {
@@ -24,8 +33,13 @@ int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100,100);
+<<<<<<< HEAD:openGL_window_test.cpp
+	glutInitWindowSize(window_width, window_height);
+	glutCreateWindow("SNESAI_Window");
+=======
 	glutInitWindowSize(256,224);
 	glutCreateWindow("SnesAI Framework");
+>>>>>>> 9bf7953896d82cc1d0a9ef3a2afe0f84fc41f47d:UI/glut old code/openGL_window_test.cpp
 
 	// register callbacks
 	glutDisplayFunc(renderScene);
