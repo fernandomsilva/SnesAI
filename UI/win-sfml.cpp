@@ -1,88 +1,69 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include "sfml-gui.h"
 #include <fstream>
-#include <string>
+#include <iostream>
 
-#define WIDTH 516//256
-#define HEIGHT 239//224
+typedef unsigned char		uint8;
 
-void paint_pixel(sf::Uint8* pixel_array, int x, int y, sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a)
-{
-	pixel_array[((x + (y * WIDTH)) * 4)] = r;
-	pixel_array[((x + (y * WIDTH)) * 4) + 1] = g;
-	pixel_array[((x + (y * WIDTH)) * 4) + 2] = b;
-	pixel_array[((x + (y * WIDTH)) * 4) + 3] = a;
-}
+/*
+FIRST NUMBER: Number of elements (including 3 RGBs)
+SECOND NUMBER: Number of pixels per row (no including 3 RGBs)
+*/
+int main() {
 
-void load_file_image(const char *filepath, sf::Uint8* pixel_array)
-{
-	std::ifstream image_file;
-	std::string line;
-	
-	int x = 0;
-	int y = 0;
-	int counter = 0;
-	sf::Uint8 color, r, g;
-	
-	image_file.open(filepath);
-	while (getline(image_file, line))
-	{
-		color = std::stoul(line);
-		
-		if (color < 32) 
-		{
-			color =  (color * 255) / 31;
-			counter = (counter + 1) % 3;
-			
-			if (counter == 0)
-			{
-				paint_pixel(pixel_array, x, y, g, color, r, 255); //Looks like it is GBR for some reason
-				
-				x = (x + 1) % WIDTH;
-				if (x == 0) { y = y + 1; }
-			}
-			else if (counter == 1)
-			{
-				r = color;
-			}
-			else
-			{
-				g = color;
-			}
-		}
+	// Reading framebuffer
+	std::fstream buffer_file;
+	buffer_file.open("framebuffer.txt");
+
+	int pixelPerRow = 0, screenSize = 0;
+	buffer_file >> screenSize >> pixelPerRow;
+	std::cout << screenSize << "---" << pixelPerRow;
+
+	sf::Uint8* framebuffer = new sf::Uint8[screenSize];
+	sf::Uint8* fb_pointer = framebuffer;
+
+	int r, g, b;
+	while (buffer_file >> r >> g >> b) {
+		*(fb_pointer++) = (sf::Uint8)(r * 255 / 31);
+		*(fb_pointer++) = (sf::Uint8)(g * 255 / 31);
+		*(fb_pointer++) = (sf::Uint8)(b * 255 / 31);
 	}
-	image_file.close();
+
+	// Create window 
+	int windowheight = screenSize / (3 * pixelPerRow);
+	int windowwidth = pixelPerRow / 2;
+	SFMLGUI sfml_gui(windowwidth, windowheight);
+
+	while (sfml_gui.mainLoop(framebuffer));
 }
 
+/*
 int main()
 {
     // Create the main window
-    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "SFML window");
-	
-	sf::Uint8 pixel_buffer[WIDTH * HEIGHT * 4];
-	int current = 0;
-	
-    // Load a sprite to display
-    sf::Texture texture;
-	sf::Sprite sprite;
-	
-	for (int i=0; i < WIDTH; i++)
-	{
-		for (int j=0; j < HEIGHT; j++)
-		{
-			paint_pixel(pixel_buffer, i, j, current, current, current, 255);
-		}
-	}
-	
-	load_file_image("framebuffer.txt", pixel_buffer);
+ //   sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "SFML window");
+	//
+ //   sf::Uint8 pixel_buffer[WIDTH * HEIGHT * 4];
+ //   int current = 0;
+	//
+ //   // Load a sprite to display
+ //   sf::Texture texture;
+	//sf::Sprite sprite;
+	//
+	//for (int i=0; i < WIDTH; i++)
+	//{
+ //         for (int j=0; j < HEIGHT; j++)
+ //           {
+ //             paint_pixel(pixel_buffer, i, j, current, current, current, 255);
+ //           }
+	//}
 
-	texture.create(WIDTH, HEIGHT);
-	texture.update(pixel_buffer);
-	sprite.setTexture(texture);
+	//texture.create(WIDTH, HEIGHT);
+	//texture.update(pixel_buffer);
+	//sprite.setTexture(texture);
 	
     // Start the game loop
     while (window.isOpen())
-    {
+      {
         // Process events
         sf::Event event;
         while (window.pollEvent(event))
@@ -92,15 +73,15 @@ int main()
                 window.close();
         }
 		
-		current = (current + 1) % 256;
-		/*for (int i=0; i < WIDTH; i++)
-		{
-			for (int j=0; j < HEIGHT; j++)
-			{
-				paint_pixel(pixel_buffer, i, j, current, current, current, 255);
-			}
-		}
-		texture.update(pixel_buffer);*/
+	//current = (current + 1) % 256;
+	for (int i=0; i < WIDTH; i++)
+          {
+            for (int j=0; j < HEIGHT; j++)
+              {
+                paint_pixel(pixel_buffer, i, j, (int)(i * 256 / WIDTH), (int)(i * 256 / WIDTH), (int)(i * 256 / WIDTH), 255);
+              }
+          }
+        texture.update(pixel_buffer);
 		
         // Clear screen
         window.clear();
@@ -113,6 +94,6 @@ int main()
 
         // Update the window
         window.display();
-    }
+      }
     return EXIT_SUCCESS;
-}
+}*/

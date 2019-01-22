@@ -3214,7 +3214,17 @@ static void ProcessInput(void)
 //static void WinDisplayString (const char *string, int linesFromBottom, int pixelsFromLeft, bool allowWrap);
 
 
-
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//			FOR SNES9xAI
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#include <iostream>
+#include <fstream>
+#include <../screenshot.h>
+#include "../UI/sfml-gui.h"
+bool sfml_activated = true;
+int windowheight;
+int windowwidth;
+SFMLGUI sfml_gui(windowwidth, windowheight);
 
 /*****************************************************************************/
 /* WinMain                                                                   */
@@ -3348,6 +3358,11 @@ int WINAPI WinMain(
 	DWORD lastTime = timeGetTime();
 
     MSG msg;
+
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	windowheight = GFX.ScreenSize / (3 * GFX.RealPPL);
+	windowwidth = GFX.RealPPL / 2;
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     while (TRUE)
     {
@@ -3483,6 +3498,36 @@ int WINAPI WinMain(
                 }
 
 				S9xMainLoop();
+
+				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				if (sfml_activated) {
+					/*
+
+					sf::Uint8 *framebuffer = new sf::Uint8[GFX.ScreenSize * 3 / sizeof(uint16)];
+					sf::Uint8 *output_p = framebuffer;
+					uint16 *screen = GFX.Screen;
+
+					for (int y = 0; y < GFX.ScreenSize / (GFX.RealPPL * sizeof(uint16)); y++, screen += GFX.RealPPL)
+					{
+						for (int x = 0; x < GFX.RealPPL; x++)
+						{
+							uint32	r, g, b;
+
+							DECOMPOSE_PIXEL(screen[x], r, g, b);
+
+							*(output_p++) = (sf::Uint8)(r * 255 / 31);
+							*(output_p++) = (sf::Uint8)(g * 255 / 31);
+							*(output_p++) = (sf::Uint8)(b * 255 / 31);
+
+						}
+					}
+
+					sfml_gui.mainLoop(framebuffer);
+					*/
+					;
+				}
+				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 				GUI.FrameCount++;
 			}
 
