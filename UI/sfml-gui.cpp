@@ -14,6 +14,25 @@ SFMLGUI::SFMLGUI(int width, int height) : windows_width(width), windows_height(h
 	frame_sprite->setTexture(*frame_texture);
 }
 
+void SFMLGUI::changeWindowSize(int width, int height) {
+	windows_width = width;
+	windows_height = height;
+	window->setSize(sf::Vector2u(windows_width, windows_height));
+	
+	delete frame_texture;
+	delete frame_sprite;
+	delete[] pixel_buffer;
+
+	// Create Sprite with texture that fills the entire screen
+	frame_texture = new sf::Texture();
+	frame_sprite = new sf::Sprite();
+
+	frame_texture->create(windows_width, windows_height);
+	pixel_buffer = new sf::Uint8[windows_width * windows_height * 4];
+	//texture.update(pixel_buffer);													<-delete this if nothing goes wrong
+	frame_sprite->setTexture(*frame_texture);
+}
+
 /*
 	Input:	framebuffer in the format of sf::Uint8
 

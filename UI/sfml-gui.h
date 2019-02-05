@@ -20,6 +20,8 @@ private:
 public:
 	SFMLGUI(int width = 256, int height = 224);
 
+	void changeWindowSize(int width = 256, int height = 224);
+
 	int mainLoop(sf::Uint8* framebuffer);
 
 	void paintPixel(sf::Uint8* pixel_array, int x, int y, sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a);
